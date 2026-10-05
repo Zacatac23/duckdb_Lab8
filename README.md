@@ -119,15 +119,104 @@ generar los resultados principales.
 
 ## Como levantar el ambiente
 
-<!-- TODO (Ejercicio 1.5) -->
+Para inicializar los contenedores del laboratorio (JupyterLab y Metabase) usando Docker Compose:
+
+```bash
+docker compose up -d --build
+```
+
+Una vez levantados los servicios, se puede acceder a:
+- **JupyterLab**: [http://localhost:8888](http://localhost:8888)
+- **Metabase**: [http://localhost:3000](http://localhost:3000)
+
+Para verificar el estado de los contenedores:
+```bash
+docker compose ps
+```
+
+Para detener los servicios:
+```bash
+docker compose down
+```
 
 ## Como descargar los datos
 
-<!-- TODO (Ejercicios 2.6, 5.1 y 8.1) -->
+El script `scripts/download_data.py` se encarga de descargar automáticamente los archivos Parquet del NYC TLC Trip Record Data para taxis amarillos (`yellow`) y verdes (`green`).
+
+### Ejecución dentro del contenedor
+
+La forma recomendada es ejecutar el script dentro del contenedor de análisis (`lab8-lab`):
+
+```bash
+# Descarga automatica de taxis amarillos y verdes para 2026
+docker exec -it lab8-lab python scripts/download_data.py
+
+# Descargar solo taxis amarillos
+docker exec -it lab8-lab python scripts/download_data.py --taxi yellow
+
+# Descargar solo taxis verdes
+docker exec -it lab8-lab python scripts/download_data.py --taxi green
+
+# Descargar un anio especifico (p. ej. 2026, 2025 o 2024)
+docker exec -it lab8-lab python scripts/download_data.py --year 2026
+
+# Descargar meses especificos (p. ej. enero a marzo)
+docker exec -it lab8-lab python scripts/download_data.py --months 1 2 3
+```
+
+### Características del sistema de descarga:
+1. **Idempotencia y validación**: Verifica si los archivos ya existen localmente y valida su integridad mediante `pyarrow.parquet`. Si el archivo ya existe y es válido, se omite. Si está corrupto, se descarga nuevamente.
+2. **Descarga atómica**: Los archivos se descargan primero con extensión temporal `.part` y se renombran únicamente cuando la transferencia y la validación son exitosas, evitando archivos corruptos por interrupciones.
+3. **Detección dinámica de publicación**: Consulta el servidor mediante peticiones HTTP `HEAD` para determinar si el mes ya fue publicado por la TLC (código 200) o si aún no está disponible (código 403/404), evitando descargar archivos inexistentes.
+4. **Estructura organizada**: Almacena los archivos en la jerarquía estándar: `data/raw/<tipo>/<anio>/<tipo>_tripdata_<anio>-<mes>.parquet`.
 
 ## Como ejecutar el analisis
 
-<!-- TODO -->
+### Consultas directas sobre Parquet (Ejercicio 3)
+
+DuckDB permite ejecutar consultas analíticas de alto rendimiento directamente sobre los archivos Parquet sin requerir una importación previa a tablas (`read_parquet`).
+
+Las consultas de exploración inicial se encuentran documentadas y estructuradas en el archivo:
+- `sql/01_exploracion_parquet.sql`
+
+#### Opciones para ejecutar el análisis:
+
+1. **Desde la terminal con Python y DuckDB (dentro del contenedor):**
+   ```bash
+   docker exec -it lab8-lab python -c "
+   import duckdb
+   con = duckdb.connect()
+   with open('sql/01_exploracion_parquet.sql') as f:
+       queries = [q.strip() for q in f.read().split(';') if q.strip()]
+   for i, q in enumerate(queries, 1):
+       print(f'=== Ejecutando consulta {i} ===')
+       print(con.execute(q).df().head())
+   "
+   ```
+
+2. **Desde JupyterLab:**
+   - Ingrese a [http://localhost:8888](http://localhost:8888).
+   - Abra un nuevo notebook con kernel Python 3.
+   - Conecte DuckDB y consulte los archivos directamente:
+     ```python
+     import duckdb
+     con = duckdb.connect()
+     # Consultar directamente los datos de 2026
+     df = con.execute("SELECT * FROM read_parquet('data/raw/yellow/2026/*.parquet') LIMIT 10").df()
+     display(df)
+     ```
+
+### Resumen de los datos explorados (2026):
+- **Archivos disponibles**: 16 archivos Parquet (8 meses publicados, de enero a agosto de 2026).
+- **Volumen total**: 30,040,469 registros (29,703,355 en Yellow Taxi y 337,114 en Green Taxi).
+- **Esquema**:
+  - Yellow: 20 columnas (`tpep_pickup_datetime`, `tpep_dropoff_datetime`, `Airport_fee`, etc.).
+  - Green: 21 columnas (`lpep_pickup_datetime`, `lpep_dropoff_datetime`, `ehail_fee`, `trip_type`, etc.).
+- **Hallazgos de calidad de datos**:
+  - Valores nulos en `passenger_count`: ~26% en Yellow y ~14.5% en Green.
+  - Tarifas negativas: 157,364 en Yellow y 999 en Green (disputas/reversiones contables).
+  - Distancias no positivas (`trip_distance <= 0`): 952,231 en Yellow y 12,212 en Green.
+  - Valores atípicos extremos: distancias registradas de más de 100,000 millas y marcas de tiempo fuera del año 2026 (errores de sincronización del hardware del taxímetro).
 
 ## Como reproducir los benchmarks
 
