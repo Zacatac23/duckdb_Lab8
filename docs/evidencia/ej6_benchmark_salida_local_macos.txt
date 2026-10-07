@@ -1,0 +1,87 @@
+DuckDB 1.5.5 | Python 3.11.15 | Darwin arm64 | 8 CPUs
+
+=== Escenario 1_mes: 2 archivos, 62 MiB Parquet ===
+    parquet b1_conteo_total            primera   0.006s  mediana   0.004s
+    parquet b2_filtro_selectivo        primera   0.023s  mediana   0.016s
+    parquet b3_agregacion_simple       primera   0.013s  mediana   0.015s
+    parquet p1_viajes_por_mes          primera   0.087s  mediana   0.077s
+    parquet p2_hora_dia_semana         primera   0.084s  mediana   0.080s
+    parquet p3_caracteristicas_viaje   primera   0.524s  mediana   0.499s
+    parquet p5b_top_zonas_origen       primera   0.107s  mediana   0.099s
+    parquet p8a_propinas_por_metodo    primera   0.133s  mediana   0.133s
+    parquet p9_composicion_total       primera   0.139s  mediana   0.143s
+    tabla materializada en 0.8s (102 MiB)
+    tabla   b1_conteo_total            primera   0.003s  mediana   0.002s
+    tabla   b2_filtro_selectivo        primera   0.001s  mediana   0.000s
+    tabla   b3_agregacion_simple       primera   0.009s  mediana   0.009s
+    tabla   p1_viajes_por_mes          primera   0.040s  mediana   0.038s
+    tabla   p2_hora_dia_semana         primera   0.063s  mediana   0.064s
+    tabla   p3_caracteristicas_viaje   primera   0.486s  mediana   0.487s
+    tabla   p5b_top_zonas_origen       primera   0.044s  mediana   0.045s
+    tabla   p8a_propinas_por_metodo    primera   0.068s  mediana   0.068s
+    tabla   p9_composicion_total       primera   0.057s  mediana   0.054s
+
+=== Escenario 3_meses: 6 archivos, 185 MiB Parquet ===
+    parquet b1_conteo_total            primera   0.006s  mediana   0.005s
+    parquet b2_filtro_selectivo        primera   0.016s  mediana   0.017s
+    parquet b3_agregacion_simple       primera   0.034s  mediana   0.035s
+    parquet p1_viajes_por_mes          primera   0.184s  mediana   0.164s
+    parquet p2_hora_dia_semana         primera   0.172s  mediana   0.203s
+    parquet p3_caracteristicas_viaje   primera   1.585s  mediana   1.435s
+    parquet p5b_top_zonas_origen       primera   0.228s  mediana   0.213s
+    parquet p8a_propinas_por_metodo    primera   0.259s  mediana   0.274s
+    parquet p9_composicion_total       primera   0.310s  mediana   0.310s
+    tabla materializada en 1.8s (307 MiB)
+    tabla   b1_conteo_total            primera   0.007s  mediana   0.006s
+    tabla   b2_filtro_selectivo        primera   0.001s  mediana   0.001s
+    tabla   b3_agregacion_simple       primera   0.024s  mediana   0.023s
+    tabla   p1_viajes_por_mes          primera   0.106s  mediana   0.104s
+    tabla   p2_hora_dia_semana         primera   0.186s  mediana   0.187s
+    tabla   p3_caracteristicas_viaje   primera   1.558s  mediana   1.556s
+    tabla   p5b_top_zonas_origen       primera   0.122s  mediana   0.122s
+    tabla   p8a_propinas_por_metodo    primera   0.198s  mediana   0.199s
+    tabla   p9_composicion_total       primera   0.157s  mediana   0.162s
+
+=== Escenario 2026: 16 archivos, 496 MiB Parquet ===
+    parquet b1_conteo_total            primera   0.013s  mediana   0.013s
+    parquet b2_filtro_selectivo        primera   0.040s  mediana   0.033s
+    parquet b3_agregacion_simple       primera   0.092s  mediana   0.067s
+    parquet p1_viajes_por_mes          primera   0.398s  mediana   0.382s
+    parquet p2_hora_dia_semana         primera   0.394s  mediana   0.396s
+    parquet p3_caracteristicas_viaje   primera   5.439s  mediana   4.300s
+    parquet p5b_top_zonas_origen       primera   0.515s  mediana   0.486s
+    parquet p8a_propinas_por_metodo    primera   0.696s  mediana   0.652s
+    parquet p9_composicion_total       primera   0.749s  mediana   0.787s
+    tabla materializada en 4.6s (809 MiB)
+    tabla   b1_conteo_total            primera   0.017s  mediana   0.015s
+    tabla   b2_filtro_selectivo        primera   0.002s  mediana   0.001s
+    tabla   b3_agregacion_simple       primera   0.091s  mediana   0.064s
+    tabla   p1_viajes_por_mes          primera   0.326s  mediana   0.308s
+    tabla   p2_hora_dia_semana         primera   0.504s  mediana   0.519s
+    tabla   p3_caracteristicas_viaje   primera   4.482s  mediana   3.838s
+    tabla   p5b_top_zonas_origen       primera   0.338s  mediana   0.343s
+    tabla   p8a_propinas_por_metodo    primera   0.554s  mediana   0.508s
+    tabla   p9_composicion_total       primera   0.505s  mediana   0.467s
+
+=== Escenario 2024_2026: 40 archivos, 1,172 MiB Parquet ===
+    parquet b1_conteo_total            primera   0.031s  mediana   0.029s
+    parquet b2_filtro_selectivo        primera   0.103s  mediana   0.101s
+    parquet b3_agregacion_simple       primera   0.192s  mediana   0.150s
+    parquet p1_viajes_por_mes          primera   1.073s  mediana   0.970s
+    parquet p2_hora_dia_semana         primera   0.950s  mediana   0.949s
+    parquet p3_caracteristicas_viaje   primera  13.180s  mediana  10.081s
+    parquet p5b_top_zonas_origen       primera   1.131s  mediana   1.113s
+    parquet p8a_propinas_por_metodo    primera   1.892s  mediana   1.746s
+    parquet p9_composicion_total       primera   1.745s  mediana   1.756s
+    tabla materializada en 10.3s (1,925 MiB)
+    tabla   b1_conteo_total            primera   0.040s  mediana   0.037s
+    tabla   b2_filtro_selectivo        primera   0.005s  mediana   0.001s
+    tabla   b3_agregacion_simple       primera   0.179s  mediana   0.185s
+    tabla   p1_viajes_por_mes          primera   0.906s  mediana   0.841s
+    tabla   p2_hora_dia_semana         primera   1.476s  mediana   1.443s
+    tabla   p3_caracteristicas_viaje   primera  12.531s  mediana  10.038s
+    tabla   p5b_top_zonas_origen       primera   0.936s  mediana   0.938s
+    tabla   p8a_propinas_por_metodo    primera   1.601s  mediana   1.478s
+    tabla   p9_composicion_total       primera   1.372s  mediana   1.278s
+
+Resultados en docs/benchmark/
