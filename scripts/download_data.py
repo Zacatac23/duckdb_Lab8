@@ -2,17 +2,18 @@
 """Descarga los archivos Parquet del NYC TLC Trip Record Data.
 
 Descarga los registros de viajes de taxis amarillos (yellow) y verdes (green)
-correspondientes al anio 2026 (y configurable para otros anios requeridos por
-el laboratorio).
+de los anios definidos en ANIOS_DEFAULT (2024 y 2026). Para incorporar un anio
+nuevo basta con agregarlo a ANIOS_DEFAULT o pasarlo con --year.
 
 Fuente oficial de los datos:
     https://www.nyc.gov/site/tlc/about/tlc-trip-record-data.page
 
 Uso:
-    python scripts/download_data.py                     # amarillos y verdes, 2026
-    python scripts/download_data.py --taxi yellow       # solo amarillos, 2026
-    python scripts/download_data.py --taxi green        # solo verdes, 2026
-    python scripts/download_data.py --year 2026         # anio especifico
+    python scripts/download_data.py                     # amarillos y verdes, ANIOS_DEFAULT
+    python scripts/download_data.py --taxi yellow       # solo amarillos
+    python scripts/download_data.py --taxi green        # solo verdes
+    python scripts/download_data.py --year 2026         # un anio especifico
+    python scripts/download_data.py --year 2024 2026    # varios anios
     python scripts/download_data.py --months 1 2 3      # meses especificos
 
 Los archivos se guardan en:
@@ -35,9 +36,13 @@ from pathlib import Path
 
 import requests
 
-ANIO_DEFAULT = 2026
+# Anios que forman parte del laboratorio. Ejercicio 5: se agrega 2024.
+ANIOS_DEFAULT = (2024, 2026)
 TIPOS_TAXI = ("yellow", "green")
 URL_BASE = "https://d37ci6vzurychx.cloudfront.net/trip-data"
+# Catalogo de zonas (LocationID -> Borough/Zone), usado por sql/00_vistas.sql.
+URL_ZONAS = "https://d37ci6vzurychx.cloudfront.net/misc/taxi_zone_lookup.csv"
+NOMBRE_ZONAS = "taxi_zone_lookup.csv"
 DIR_DESTINO = Path("data/raw")
 
 TIEMPO_ESPERA = 60          # segundos por peticion
@@ -128,6 +133,19 @@ def descargar_archivo(url: str, destino: Path) -> int:
     raise requests.RequestException(f"no se pudo descargar {url}: {ultimo_error}")
 
 
+def descargar_zonas(dir_destino: Path) -> None:
+    """Descarga el catalogo de zonas de taxi si no existe localmente."""
+    destino = dir_destino / NOMBRE_ZONAS
+    if destino.exists() and destino.stat().st_size > 0:
+        print(f"\n{NOMBRE_ZONAS} ya existe localmente, se omite")
+        return
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    respuesta = requests.get(URL_ZONAS, timeout=TIEMPO_ESPERA)
+    respuesta.raise_for_status()
+    destino.write_bytes(respuesta.content)
+    print(f"\n{NOMBRE_ZONAS} descargado -> {destino}")
+
+
 def descargar(tipo: str, anio: int, meses: list[int], dir_destino: Path) -> dict:
     """Descarga todos los meses especificados de un tipo de taxi para el anio dado."""
     print(f"\n=== {tipo.upper()} {anio} ===")
@@ -182,8 +200,9 @@ def main() -> int:
     parser.add_argument(
         "--year", "--anio",
         type=int,
-        default=ANIO_DEFAULT,
-        help=f"anio de los datos a descargar (por defecto: {ANIO_DEFAULT})",
+        nargs="+",
+        default=list(ANIOS_DEFAULT),
+        help=f"anio(s) de los datos a descargar (por defecto: {' '.join(map(str, ANIOS_DEFAULT))})",
     )
     parser.add_argument(
         "--months", "--meses",
@@ -209,19 +228,22 @@ def main() -> int:
 
     tipos = TIPOS_TAXI if argumentos.taxi == "all" else (argumentos.taxi,)
 
+    descargar_zonas(argumentos.output_dir)
+
     total = {"descargados": 0, "omitidos": 0, "no_publicados": [], "fallidos": [], "bytes": 0}
-    for tipo in tipos:
-        resumen = descargar(tipo, argumentos.year, meses_validos, argumentos.output_dir)
-        total["descargados"] += resumen["descargados"]
-        total["omitidos"] += resumen["omitidos"]
-        total["bytes"] += resumen["bytes"]
-        total["no_publicados"] += [f"{tipo} {m}" for m in resumen["no_publicados"]]
-        total["fallidos"] += [f"{tipo} {m}" for m in resumen["fallidos"]]
+    for anio in sorted(set(argumentos.year)):
+        for tipo in tipos:
+            resumen = descargar(tipo, anio, meses_validos, argumentos.output_dir)
+            total["descargados"] += resumen["descargados"]
+            total["omitidos"] += resumen["omitidos"]
+            total["bytes"] += resumen["bytes"]
+            total["no_publicados"] += [f"{tipo} {m}" for m in resumen["no_publicados"]]
+            total["fallidos"] += [f"{tipo} {m}" for m in resumen["fallidos"]]
 
     print("\n" + "=" * 60)
     print("RESUMEN DE DESCARGA")
     print("=" * 60)
-    print(f"  Anio analizado : {argumentos.year}")
+    print(f"  Anios          : {', '.join(map(str, sorted(set(argumentos.year))))}")
     print(f"  Descargados    : {total['descargados']} ({formato_tamanio(total['bytes'])})")
     print(f"  Ya existian    : {total['omitidos']}")
     print(f"  No publicados  : {len(total['no_publicados'])}")

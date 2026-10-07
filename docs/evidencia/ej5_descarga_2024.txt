@@ -1,0 +1,69 @@
+
+taxi_zone_lookup.csv ya existe localmente, se omite
+
+=== YELLOW 2024 ===
+  2024-01  descargando... listo (47.6 MiB en 4.0s, 12.0 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-01.parquet
+  2024-02  descargando... listo (48.0 MiB en 4.0s, 12.0 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-02.parquet
+  2024-03  descargando... listo (57.3 MiB en 5.4s, 10.6 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-03.parquet
+  2024-04  descargando... listo (56.4 MiB en 3.6s, 15.7 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-04.parquet
+  2024-05  descargando... listo (59.7 MiB en 4.2s, 14.1 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-05.parquet
+  2024-06  descargando... listo (57.1 MiB en 3.6s, 15.7 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-06.parquet
+  2024-07  descargando... listo (49.9 MiB en 3.9s, 12.7 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-07.parquet
+  2024-08  descargando... listo (48.7 MiB en 6.4s, 7.6 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-08.parquet
+  2024-09  descargando... listo (58.3 MiB en 7.6s, 7.7 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-09.parquet
+  2024-10  descargando... listo (61.4 MiB en 7.9s, 7.8 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-10.parquet
+  2024-11  descargando... listo (57.8 MiB en 8.5s, 6.8 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-11.parquet
+  2024-12  descargando... listo (58.7 MiB en 5.7s, 10.2 MB/s) -> data/raw/yellow/2024/yellow_tripdata_2024-12.parquet
+
+=== GREEN 2024 ===
+  2024-01  descargando... listo (1.3 MiB en 1.1s, 1.2 MB/s) -> data/raw/green/2024/green_tripdata_2024-01.parquet
+  2024-02  descargando... listo (1.2 MiB en 0.8s, 1.5 MB/s) -> data/raw/green/2024/green_tripdata_2024-02.parquet
+  2024-03  descargando... listo (1.3 MiB en 0.9s, 1.5 MB/s) -> data/raw/green/2024/green_tripdata_2024-03.parquet
+  2024-04  descargando... listo (1.3 MiB en 0.8s, 1.6 MB/s) -> data/raw/green/2024/green_tripdata_2024-04.parquet
+  2024-05  descargando... listo (1.4 MiB en 0.7s, 1.9 MB/s) -> data/raw/green/2024/green_tripdata_2024-05.parquet
+  2024-06  descargando... listo (1.3 MiB en 0.7s, 1.8 MB/s) -> data/raw/green/2024/green_tripdata_2024-06.parquet
+  2024-07  descargando... listo (1.2 MiB en 0.7s, 1.8 MB/s) -> data/raw/green/2024/green_tripdata_2024-07.parquet
+  2024-08  descargando... listo (1.2 MiB en 0.9s, 1.3 MB/s) -> data/raw/green/2024/green_tripdata_2024-08.parquet
+  2024-09  descargando... listo (1.3 MiB en 0.8s, 1.6 MB/s) -> data/raw/green/2024/green_tripdata_2024-09.parquet
+  2024-10  descargando... listo (1.3 MiB en 0.8s, 1.6 MB/s) -> data/raw/green/2024/green_tripdata_2024-10.parquet
+  2024-11  descargando... listo (1.2 MiB en 0.8s, 1.6 MB/s) -> data/raw/green/2024/green_tripdata_2024-11.parquet
+  2024-12  descargando... listo (1.3 MiB en 0.7s, 1.8 MB/s) -> data/raw/green/2024/green_tripdata_2024-12.parquet
+
+=== YELLOW 2026 ===
+  2026-01  ya existe localmente y es valido, se omite
+  2026-02  ya existe localmente y es valido, se omite
+  2026-03  ya existe localmente y es valido, se omite
+  2026-04  ya existe localmente y es valido, se omite
+  2026-05  ya existe localmente y es valido, se omite
+  2026-06  ya existe localmente y es valido, se omite
+  2026-07  ya existe localmente y es valido, se omite
+  2026-08  ya existe localmente y es valido, se omite
+  2026-09  aun no publicado por la TLC (HTTP 404/403)
+  2026-10  aun no publicado por la TLC (HTTP 404/403)
+  2026-11  aun no publicado por la TLC (HTTP 404/403)
+  2026-12  aun no publicado por la TLC (HTTP 404/403)
+
+=== GREEN 2026 ===
+  2026-01  ya existe localmente y es valido, se omite
+  2026-02  ya existe localmente y es valido, se omite
+  2026-03  ya existe localmente y es valido, se omite
+  2026-04  ya existe localmente y es valido, se omite
+  2026-05  ya existe localmente y es valido, se omite
+  2026-06  ya existe localmente y es valido, se omite
+  2026-07  ya existe localmente y es valido, se omite
+  2026-08  ya existe localmente y es valido, se omite
+  2026-09  aun no publicado por la TLC (HTTP 404/403)
+  2026-10  aun no publicado por la TLC (HTTP 404/403)
+  2026-11  aun no publicado por la TLC (HTTP 404/403)
+  2026-12  aun no publicado por la TLC (HTTP 404/403)
+
+============================================================
+RESUMEN DE DESCARGA
+============================================================
+  Anios          : 2024, 2026
+  Descargados    : 24 (676.1 MiB)
+  Ya existian    : 16
+  No publicados  : 8
+      yellow 2026-09, yellow 2026-10, yellow 2026-11, yellow 2026-12, green 2026-09, green 2026-10, green 2026-11, green 2026-12
+  Fallidos       : 0
+============================================================
